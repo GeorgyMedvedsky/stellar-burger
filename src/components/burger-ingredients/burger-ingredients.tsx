@@ -8,7 +8,7 @@ import {
   getIngredientsThunk,
   selectIngredients,
   selectIsLoading
-} from '../../services/ingredientsSlice';
+} from '../../services/slices/ingredientsSlice';
 
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector(selectIngredients);
