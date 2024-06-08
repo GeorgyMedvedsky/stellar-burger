@@ -25,7 +25,7 @@ const App = () => {
   const handleClose = () => {
     navigate(-1);
   };
-  getFeedsApi().then((data) => console.log(data));
+  // getFeedsApi().then((data) => console.log(data));
 
   return (
     <div className={styles.app}>
