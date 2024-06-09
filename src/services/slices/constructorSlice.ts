@@ -24,18 +24,18 @@ const constructorSlice = createSlice({
       } else {
         state.ingredients.push(action.payload);
       }
+    },
+    removeItem: (state, action: PayloadAction<string>) => {
+      state.ingredients = state.ingredients.filter(
+        (i) => i._id !== action.payload
+      );
     }
-    // removeItem: (state, action: PayloadAction<string>) => {
-    //   state.ingredients = state.ingredients.filter(
-    //     (i) => i._id !== action.payload
-    //   );
-    // }
   },
   selectors: {
     selectConstructorItems: (state) => state
   }
 });
 
-export const { addItem } = constructorSlice.actions;
+export const { addItem, removeItem } = constructorSlice.actions;
 export const { selectConstructorItems } = constructorSlice.selectors;
 export const reducer = constructorSlice.reducer;
