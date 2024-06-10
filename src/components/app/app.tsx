@@ -14,7 +14,6 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import { getFeedsApi } from '@api';
 
 const App = () => {
   const navigate = useNavigate();
@@ -25,7 +24,7 @@ const App = () => {
   const handleClose = () => {
     navigate(-1);
   };
-  // getFeedsApi().then((data) => console.log(data));
+  // getOrdersApi().then((data) => console.log(data));
 
   return (
     <div className={styles.app}>
