@@ -2,6 +2,9 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { registerUserApi } from '@api';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from '../../services/store';
+import { selectIsLoading } from '../../services/slices/authSlice';
+import { Preloader } from '@ui';
 
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');
@@ -9,6 +12,7 @@ export const Register: FC = () => {
   const [password, setPassword] = useState('');
   const [errorText, setErrorText] = useState('');
   const navigate = useNavigate();
+  const isLoading = useSelector(selectIsLoading);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -20,6 +24,10 @@ export const Register: FC = () => {
         setErrorText(err.message || 'Произошла неизвестная ошибка');
       });
   };
+
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   return (
     <RegisterUI

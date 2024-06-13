@@ -3,12 +3,16 @@ import { useNavigate } from 'react-router-dom';
 
 import { resetPasswordApi } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
+import { useSelector } from '../../services/store';
+import { selectIsLoading } from '../../services/slices/authSlice';
+import { Preloader } from '@ui';
 
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
   const [error, setError] = useState<Error | null>(null);
+  const isLoading = useSelector(selectIsLoading);
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -26,6 +30,10 @@ export const ResetPassword: FC = () => {
       navigate('/forgot-password', { replace: true });
     }
   }, [navigate]);
+
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   return (
     <ResetPasswordUI
