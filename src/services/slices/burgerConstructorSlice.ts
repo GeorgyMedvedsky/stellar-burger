@@ -11,7 +11,7 @@ const initialState: TConstructorState = {
   ingredients: []
 };
 
-const constructorSlice = createSlice({
+export const burgerConstructorSlice = createSlice({
   name: 'burgerConstructor',
   initialState,
   reducers: {
@@ -36,6 +36,6 @@ const constructorSlice = createSlice({
   }
 });
 
-export const { addItem, removeItem } = constructorSlice.actions;
-export const { selectConstructorItems } = constructorSlice.selectors;
-export const reducer = constructorSlice.reducer;
+export const { addItem, removeItem } = burgerConstructorSlice.actions;
+export const { selectConstructorItems } = burgerConstructorSlice.selectors;
+export const reducer = burgerConstructorSlice.reducer;

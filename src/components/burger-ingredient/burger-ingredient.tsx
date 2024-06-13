@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
-import { addItem } from '../../services/slices/constructorSlice';
+import { addItem } from '../../services/slices/burgerConstructorSlice';
 import { useDispatch } from '../../services/store';
 import { TConstructorIngredient } from '@utils-types';
 

@@ -19,7 +19,7 @@ const initialState: TFeedsData = {
   error: null
 };
 
-const feedsSlice = createSlice({
+export const feedsSlice = createSlice({
   name: 'feeds',
   initialState,
   reducers: {},

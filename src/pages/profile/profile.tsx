@@ -15,12 +15,14 @@ export const Profile: FC = () => {
   });
 
   useEffect(() => {
-    setFormValue((prevState) => ({
-      ...prevState,
-      name: user?.name || '',
-      email: user?.email || ''
-    }));
-  }, [user]);
+    if (user.name !== formValue.name || user.email !== formValue.email) {
+      setFormValue((prevState) => ({
+        ...prevState,
+        name: user?.name || '',
+        email: user?.email || ''
+      }));
+    }
+  }, [user.name, user.email]);
 
   const isFormChanged =
     formValue.name !== user?.name ||
@@ -56,6 +58,4 @@ export const Profile: FC = () => {
       handleInputChange={handleInputChange}
     />
   );
-
-  return null;
 };
