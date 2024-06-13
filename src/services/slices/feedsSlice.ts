@@ -48,6 +48,5 @@ export const feedsSlice = createSlice({
   }
 });
 
-export const reducer = feedsSlice.reducer;
 export const { selectIsLoading, selectOrders, selectTotal, selectTotalToday } =
   feedsSlice.selectors;

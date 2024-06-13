@@ -34,7 +34,7 @@ const App = () => {
   useEffect(() => {
     dispatch(checkUserAuth());
     dispatch(setUser(user));
-  }, [dispatch]);
+  }, []);
 
   const handleClose = () => {
     navigate(-1);

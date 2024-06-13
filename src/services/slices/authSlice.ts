@@ -57,8 +57,8 @@ export const logoutUserThunk = createAsyncThunk('auth/logout', async () => {
       localStorage.clear();
       deleteCookie('refreshToken');
     })
-    .catch(() => {
-      console.log('Ошибка выполнения выхода');
+    .catch((err) => {
+      console.log(err);
     });
 });
 

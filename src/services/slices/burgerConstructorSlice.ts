@@ -38,4 +38,3 @@ export const burgerConstructorSlice = createSlice({
 
 export const { addItem, removeItem } = burgerConstructorSlice.actions;
 export const { selectConstructorItems } = burgerConstructorSlice.selectors;
-export const reducer = burgerConstructorSlice.reducer;
