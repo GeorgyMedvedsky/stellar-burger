@@ -16,8 +16,9 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
-import { checkUserAuth, selectUser, setUser } from '../../services/slices/auth';
 import Protected from '../protected-route/protected-route';
+import { checkUserAuth } from '../../services/user/actions';
+import { selectUser } from '../../services/user/slice';
 
 const App = () => {
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
@@ -29,7 +30,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(checkUserAuth());
-    dispatch(setUser(user));
   }, []);
 
   const handleClose = () => {
@@ -43,10 +43,17 @@ const App = () => {
         <Route path='*' element={<NotFound404 />} />
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/register' element={<Register />} />
         <Route
           path='/login'
           element={<Protected onlyUnAuth component={<Login />} />}
+        />
+        <Route
+          path='/profile'
+          element={<Protected component={<Profile />} />}
+        />
+        <Route
+          path='/register'
+          element={<Protected onlyUnAuth component={<Register />} />}
         />
         <Route
           path='/forgot-password'
@@ -55,10 +62,6 @@ const App = () => {
         <Route
           path='/reset-password'
           element={<Protected onlyUnAuth component={<ResetPassword />} />}
-        />
-        <Route
-          path='/profile'
-          element={<Protected component={<Profile />} />}
         />
         <Route
           path='/profile/orders'

@@ -2,8 +2,8 @@ import { FC, memo } from 'react';
 import { BurgerConstructorElementUI } from '@ui';
 import { BurgerConstructorElementProps } from './type';
 import { useDispatch, useSelector } from '../../services/store';
-import { removeItem } from '../../services/slices/burger-constructor';
-import { selectConstructorItems } from '../../services/slices/burger-constructor';
+import { removeItem } from '../../services/burger-constructor/slice';
+import { selectConstructorItems } from '../../services/burger-constructor/slice';
 
 export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {

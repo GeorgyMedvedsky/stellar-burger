@@ -3,8 +3,9 @@ import { RegisterUI } from '@ui-pages';
 import { registerUserApi } from '@api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from '../../services/store';
-import { selectIsLoading } from '../../services/slices/auth';
+
 import { Preloader } from '@ui';
+import { selectIsLoading } from '../../services/user/slice';
 
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');

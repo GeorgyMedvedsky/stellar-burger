@@ -5,10 +5,10 @@ import { TIngredient, TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
 import { useDispatch, useSelector } from '../../services/store';
 import {
-  getIngredientsThunk,
   selectIngredients,
   selectIsLoading
-} from '../../services/slices/ingredients';
+} from '../../services/ingredients/slice';
+import { getIngredientsThunk } from '../../services/ingredients/action';
 
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector(selectIngredients);

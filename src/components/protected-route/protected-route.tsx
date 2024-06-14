@@ -1,14 +1,14 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { selectAuthChecked, selectUser } from '../../services/slices/auth';
 import { useSelector } from '../../services/store';
 import { Preloader } from '../ui/preloader';
+import { selectAuthChecked, selectUser } from '../../services/user/slice';
 
 type TProtectedProps = {
   onlyUnAuth?: boolean;
   component: React.JSX.Element;
 };
 
-const Protected = ({ onlyUnAuth = false, component }: TProtectedProps) => {
+const Protected = ({ onlyUnAuth, component }: TProtectedProps) => {
   const isAuthChecked = useSelector(selectAuthChecked);
   const user = useSelector(selectUser);
   const location = useLocation();
@@ -23,7 +23,6 @@ const Protected = ({ onlyUnAuth = false, component }: TProtectedProps) => {
 
   if (onlyUnAuth && user) {
     const from = location.state?.from || { pathname: '/' };
-
     return <Navigate replace to={from} />;
   }
 
@@ -31,9 +30,3 @@ const Protected = ({ onlyUnAuth = false, component }: TProtectedProps) => {
 };
 
 export default Protected;
-// export const OnlyAuth = Protected;
-// export const OnlyUnAuth = ({
-//   component
-// }: {
-//   component: React.JSX.Element;
-// }): React.JSX.Element => <Protected onlyUnAuth component={component} />;

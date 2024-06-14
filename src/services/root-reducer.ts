@@ -1,12 +1,14 @@
-import { ingredientsSlice } from './slices/ingredients';
-import { burgerConstructorSlice } from './slices/burger-constructor';
-import { feedsSlice } from './slices/feeds';
+import { burgerConstructorSlice } from './burger-constructor/slice';
+import { feedsSlice } from './feeds/slice';
 import { combineReducers } from '@reduxjs/toolkit';
-import { authSlice } from './slices/auth';
+import { userSlice } from './user/slice';
+import { ingredientsSlice } from './ingredients/slice';
+import { orderSlice } from './user-orders/slice';
 
 export const rootReducer = combineReducers({
   [ingredientsSlice.reducerPath]: ingredientsSlice.reducer,
   [burgerConstructorSlice.reducerPath]: burgerConstructorSlice.reducer,
   [feedsSlice.reducerPath]: feedsSlice.reducer,
-  [authSlice.reducerPath]: authSlice.reducer
+  [userSlice.reducerPath]: userSlice.reducer,
+  [orderSlice.reducerPath]: orderSlice.reducer
 });

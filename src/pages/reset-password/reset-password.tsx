@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { resetPasswordApi } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
 import { useSelector } from '../../services/store';
-import { selectIsLoading } from '../../services/slices/auth';
+
 import { Preloader } from '@ui';
+import { selectIsLoading } from '../../services/user/slice';
 
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();

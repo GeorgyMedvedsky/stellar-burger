@@ -4,11 +4,11 @@ import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
 import { useDispatch, useSelector } from '../../services/store';
 import {
-  getFeedsThunk,
   selectOrders,
   selectTotal,
   selectTotalToday
-} from '../../services/slices/feeds';
+} from '../../services/feeds/slice';
+import { getFeedsThunk } from '../../services/feeds/action';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders

@@ -3,9 +3,10 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from '../../services/store';
-import { selectIngredients } from '../../services/slices/ingredients';
+
 import { useParams } from 'react-router-dom';
-import { selectOrders } from '../../services/slices/feeds';
+import { selectOrders } from '../../services/feeds/slice';
+import { selectIngredients } from '../../services/ingredients/slice';
 
 interface OrderInfoProps {
   setOrderNumber: (number: number) => void;

@@ -1,10 +1,6 @@
-import { getFeedsApi } from '@api';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { TOrdersData } from '@utils-types';
-
-export const getFeedsThunk = createAsyncThunk('feeds/getAll', async () =>
-  getFeedsApi()
-);
+import { getFeedsThunk } from './action';
 
 type TFeedsData = TOrdersData & {
   isLoading: boolean;
