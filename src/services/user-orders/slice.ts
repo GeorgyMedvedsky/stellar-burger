@@ -50,5 +50,6 @@ export const orderSlice = createSlice({
   }
 });
 
+export const { resetOrderState } = orderSlice.actions;
 export const { selectOrderModalData, selectOrderRequest, selectOrder } =
   orderSlice.selectors;
