@@ -1,8 +1,8 @@
-import { ingredientsSlice } from './slices/ingredientsSlice';
-import { burgerConstructorSlice } from './slices/burgerConstructorSlice';
-import { feedsSlice } from './slices/feedsSlice';
+import { ingredientsSlice } from './slices/ingredients';
+import { burgerConstructorSlice } from './slices/burger-constructor';
+import { feedsSlice } from './slices/feeds';
 import { combineReducers } from '@reduxjs/toolkit';
-import { authSlice } from './slices/authSlice';
+import { authSlice } from './slices/auth';
 
 export const rootReducer = combineReducers({
   [ingredientsSlice.reducerPath]: ingredientsSlice.reducer,

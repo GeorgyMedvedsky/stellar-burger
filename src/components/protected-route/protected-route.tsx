@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { selectAuthChecked, selectUser } from '../../services/slices/authSlice';
+import { selectAuthChecked, selectUser } from '../../services/slices/auth';
 import { useSelector } from '../../services/store';
 import { Preloader } from '../ui/preloader';
 

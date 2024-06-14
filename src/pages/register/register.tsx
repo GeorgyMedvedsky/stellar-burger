@@ -3,7 +3,7 @@ import { RegisterUI } from '@ui-pages';
 import { registerUserApi } from '@api';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from '../../services/store';
-import { selectIsLoading } from '../../services/slices/authSlice';
+import { selectIsLoading } from '../../services/slices/auth';
 import { Preloader } from '@ui';
 
 export const Register: FC = () => {

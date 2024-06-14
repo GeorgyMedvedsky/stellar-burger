@@ -5,7 +5,7 @@ import {
   loginUserThunk,
   selectError,
   selectIsLoading
-} from '../../services/slices/authSlice';
+} from '../../services/slices/auth';
 import { Preloader } from '@ui';
 
 export const Login: FC = () => {

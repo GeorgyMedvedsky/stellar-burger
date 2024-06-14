@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { resetPasswordApi } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
 import { useSelector } from '../../services/store';
-import { selectIsLoading } from '../../services/slices/authSlice';
+import { selectIsLoading } from '../../services/slices/auth';
 import { Preloader } from '@ui';
 
 export const ResetPassword: FC = () => {

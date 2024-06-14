@@ -16,11 +16,7 @@ import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
-import {
-  checkUserAuth,
-  selectUser,
-  setUser
-} from '../../services/slices/authSlice';
+import { checkUserAuth, selectUser, setUser } from '../../services/slices/auth';
 import Protected from '../protected-route/protected-route';
 
 const App = () => {
