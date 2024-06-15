@@ -1,19 +1,12 @@
 import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
-
 import { TIngredient, TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-import { useDispatch, useSelector } from '../../services/store';
-import {
-  selectIngredients,
-  selectIsLoading
-} from '../../services/ingredients/slice';
-import { getIngredientsThunk } from '../../services/ingredients/action';
+import { useSelector } from '../../services/store';
+import { selectIngredients } from '../../services/ingredients/slice';
 
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector(selectIngredients);
-  const isLoading = useSelector(selectIsLoading);
-  const dispatch = useDispatch();
 
   const buns: Array<TIngredient> = ingredients.filter(
     (item) => item.type == 'bun'
@@ -43,9 +36,6 @@ export const BurgerIngredients: FC = () => {
   });
 
   useEffect(() => {
-    if (!ingredients.length && !isLoading) {
-      dispatch(getIngredientsThunk());
-    }
     if (inViewBuns) {
       setCurrentTab('bun');
     } else if (inViewSauces) {
@@ -53,7 +43,7 @@ export const BurgerIngredients: FC = () => {
     } else if (inViewFilling) {
       setCurrentTab('main');
     }
-  }, [inViewBuns, inViewFilling, inViewSauces, dispatch]);
+  }, [inViewBuns, inViewFilling, inViewSauces]);
 
   const onTabClick = (tab: string) => {
     setCurrentTab(tab as TTabMode);

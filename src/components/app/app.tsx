@@ -11,26 +11,25 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
-
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch } from '../../services/store';
 import Protected from '../protected-route/protected-route';
 import { checkUserAuth } from '../../services/user/actions';
-import { selectUser } from '../../services/user/slice';
+import { getIngredientsThunk } from '../../services/ingredients/action';
 
 const App = () => {
   const [orderNumber, setOrderNumber] = useState<number | null>(null);
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
-  const backgroundLocation = location.state?.backgroundLocation;
-  const user = useSelector(selectUser);
+  const location = useLocation();
+  const backgroundLocation = location.state?.background;
 
   useEffect(() => {
-    dispatch(checkUserAuth());
-  }, []);
+    // dispatch(checkUserAuth());
+    dispatch(getIngredientsThunk());
+  }, [dispatch]);
 
   const handleClose = () => {
     navigate(-1);
@@ -67,37 +66,45 @@ const App = () => {
           path='/profile/orders'
           element={<Protected component={<ProfileOrders />} />}
         />
-        <Route path='/ingredients/:id' element={<ConstructorPage />} />
-        <Route path='/feed/:number' element={<Feed />} />
-        <Route path='/profile/orders/:number' element={<ProfileOrders />} />
-      </Routes>
-
-      <Routes>
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal title='Детали ингредиента' onClose={handleClose}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
           path='/feed/:number'
-          element={
-            <Modal title={`# ${orderNumber}`} onClose={handleClose}>
-              <OrderInfo setOrderNumber={setOrderNumber} />
-            </Modal>
-          }
+          element={<OrderInfo setOrderNumber={setOrderNumber} />}
         />
         <Route
           path='/profile/orders/:number'
-          element={
-            <Modal title='Информация о заказе' onClose={handleClose}>
-              <OrderInfo setOrderNumber={setOrderNumber} />
-            </Modal>
-          }
+          element={<OrderInfo setOrderNumber={setOrderNumber} />}
         />
       </Routes>
+
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title='Детали ингредиента' onClose={handleClose}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal title={`# ${orderNumber}`} onClose={handleClose}>
+                <OrderInfo setOrderNumber={setOrderNumber} />
+              </Modal>
+            }
+          />
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <Modal title='Информация о заказе' onClose={handleClose}>
+                <OrderInfo setOrderNumber={setOrderNumber} />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 };

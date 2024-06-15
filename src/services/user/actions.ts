@@ -36,31 +36,21 @@ export const checkUserAuth = createAsyncThunk(
   }
 );
 
-export const logoutUserThunk = createAsyncThunk(
-  'auth/logoutUser',
-  async (_, { rejectWithValue }) => {
-    try {
-      await logoutApi();
-      deleteCookie('accessToken');
-      localStorage.clear();
-    } catch (err) {
-      return rejectWithValue(err);
-    }
-  }
-);
+export const logoutUserThunk = createAsyncThunk('auth/logoutUser', async () => {
+  await logoutApi();
+  deleteCookie('accessToken');
+  localStorage.clear();
+});
 
 export const createOrderThunk = createAsyncThunk(
   'order/createOrder',
-  async (ingredients: string[], { rejectWithValue }) => {
-    try {
-      const response = await orderBurgerApi(ingredients);
-      return response;
-    } catch (error) {
-      return rejectWithValue(error);
-    }
+  async (ingredients: string[]) => {
+    const response = await orderBurgerApi(ingredients);
+    return response;
   }
 );
 
-export const getUserOrdersThunk = createAsyncThunk('orders/getAll', async () =>
-  getOrdersApi()
+export const getUserOrdersThunk = createAsyncThunk(
+  'orders/getAll',
+  getOrdersApi
 );

@@ -11,9 +11,7 @@ export const Feed: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!orders.length) {
-      dispatch(getFeedsThunk());
-    }
+    dispatch(getFeedsThunk());
   }, [dispatch]);
 
   if (!orders.length) {

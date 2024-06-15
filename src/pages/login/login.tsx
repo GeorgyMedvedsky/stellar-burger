@@ -36,7 +36,6 @@ export const Login: FC = () => {
   if (isAuthenticated) {
     return <Navigate to={prevPath} replace />;
   }
-  console.log(loginError);
 
   return (
     <LoginUI
