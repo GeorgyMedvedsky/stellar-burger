@@ -1,6 +1,5 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice, nanoid } from '@reduxjs/toolkit';
 import { TConstructorIngredient } from '@utils-types';
-import { v4 as uuid } from 'uuid';
 
 type TConstructorState = {
   bun: TConstructorIngredient | null;
@@ -24,7 +23,7 @@ export const burgerConstructorSlice = createSlice({
       } else {
         const ingredient = {
           ...action.payload,
-          id: uuid()
+          id: nanoid()
         };
         state.ingredients.push(ingredient);
       }
