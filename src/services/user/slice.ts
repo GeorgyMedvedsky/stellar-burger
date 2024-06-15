@@ -69,11 +69,9 @@ export const userSlice = createSlice({
         state.isAuthChecked = true;
       })
       .addCase(logoutUserThunk.pending, (state) => {
-        state.loginUserRequest = true;
         state.error = null;
       })
       .addCase(logoutUserThunk.rejected, (state, action) => {
-        state.loginUserRequest = false;
         state.error = action.error.message;
       })
       .addCase(logoutUserThunk.fulfilled, (state) => {

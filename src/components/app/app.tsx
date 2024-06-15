@@ -27,7 +27,7 @@ const App = () => {
   const backgroundLocation = location.state?.background;
 
   useEffect(() => {
-    // dispatch(checkUserAuth());
+    dispatch(checkUserAuth());
     dispatch(getIngredientsThunk());
   }, [dispatch]);
 
