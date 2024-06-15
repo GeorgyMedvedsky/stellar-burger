@@ -1,7 +1,7 @@
 import { TLoginData, getUserApi, loginUserApi, logoutApi } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
-import { authChecked, logoutUser } from './slice';
+import { authChecked } from './slice';
 
 export const loginUserThunk = createAsyncThunk(
   'user/loginUser',
@@ -31,12 +31,11 @@ export const checkUserAuth = createAsyncThunk(
 
 export const logoutUserThunk = createAsyncThunk(
   'auth/logoutUser',
-  async (_, { dispatch, rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       await logoutApi();
       deleteCookie('accessToken');
       localStorage.clear();
-      dispatch(logoutUser());
     } catch (err) {
       return rejectWithValue(err);
     }

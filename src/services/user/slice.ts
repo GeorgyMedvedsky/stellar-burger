@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
-import { loginUserThunk } from './actions';
+import { loginUserThunk, logoutUserThunk } from './actions';
 
 type TAuthState = {
   data: TUser | null;
@@ -24,9 +24,6 @@ export const userSlice = createSlice({
   reducers: {
     authChecked: (state) => {
       state.isAuthChecked = true;
-    },
-    logoutUser: (state) => {
-      state.data = null;
     }
   },
   selectors: {
@@ -52,11 +49,15 @@ export const userSlice = createSlice({
         state.loginUserRequest = false;
         state.isAuthenticated = true;
         state.isAuthChecked = true;
+      })
+      .addCase(logoutUserThunk.fulfilled, (state) => {
+        state.data = null;
+        state.isAuthenticated = false;
       });
   }
 });
 
-export const { authChecked, logoutUser } = userSlice.actions;
+export const { authChecked } = userSlice.actions;
 export const {
   selectUser,
   selectAuthChecked,
