@@ -35,12 +35,13 @@ export const BurgerConstructor: FC = () => {
     if (!isAuthenticated) {
       navigate('/login');
     } else {
-      dispatch(createOrderThunk(burgerIngredients));
+      dispatch(createOrderThunk(burgerIngredients)).finally(() => {
+        dispatch(clearConstructor());
+      });
     }
   };
   const closeOrderModal = () => {
     dispatch(resetOrderState());
-    dispatch(clearConstructor());
     navigate('/', { replace: true });
   };
 
