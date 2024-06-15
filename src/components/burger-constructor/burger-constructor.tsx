@@ -2,7 +2,10 @@ import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useDispatch, useSelector } from '../../services/store';
-import { selectConstructorItems } from '../../services/burger-constructor/slice';
+import {
+  clearConstructor,
+  selectConstructorItems
+} from '../../services/burger-constructor/slice';
 import {
   resetOrderState,
   selectOrderModalData,
@@ -37,6 +40,7 @@ export const BurgerConstructor: FC = () => {
   };
   const closeOrderModal = () => {
     dispatch(resetOrderState());
+    dispatch(clearConstructor());
     navigate('/', { replace: true });
   };
 
