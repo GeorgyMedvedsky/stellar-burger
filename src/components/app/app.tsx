@@ -69,6 +69,7 @@ const App = () => {
         />
         <Route path='/ingredients/:id' element={<ConstructorPage />} />
         <Route path='/feed/:number' element={<Feed />} />
+        <Route path='/profile/orders/:number' element={<ProfileOrders />} />
       </Routes>
 
       <Routes>
@@ -91,7 +92,7 @@ const App = () => {
         <Route
           path='/profile/orders/:number'
           element={
-            <Modal title='Детали ингредиента' onClose={handleClose}>
+            <Modal title='Информация о заказе' onClose={handleClose}>
               <OrderInfo setOrderNumber={setOrderNumber} />
             </Modal>
           }

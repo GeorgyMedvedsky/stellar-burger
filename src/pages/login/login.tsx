@@ -1,7 +1,6 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
-
 import { Preloader } from '@ui';
 import { Navigate, useLocation } from 'react-router-dom';
 import {
@@ -10,7 +9,6 @@ import {
   selectIsLoading
 } from '../../services/user/slice';
 import { loginUserThunk } from '../../services/user/actions';
-import { loginUserApi } from '@api';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -38,6 +36,7 @@ export const Login: FC = () => {
   if (isAuthenticated) {
     return <Navigate to={prevPath} replace />;
   }
+  console.log(loginError);
 
   return (
     <LoginUI

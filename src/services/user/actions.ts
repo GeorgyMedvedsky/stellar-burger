@@ -1,4 +1,11 @@
-import { TLoginData, getUserApi, loginUserApi, logoutApi } from '@api';
+import {
+  TLoginData,
+  getOrdersApi,
+  getUserApi,
+  loginUserApi,
+  logoutApi,
+  orderBurgerApi
+} from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
 import { authChecked } from './slice';
@@ -40,4 +47,20 @@ export const logoutUserThunk = createAsyncThunk(
       return rejectWithValue(err);
     }
   }
+);
+
+export const createOrderThunk = createAsyncThunk(
+  'order/createOrder',
+  async (ingredients: string[], { rejectWithValue }) => {
+    try {
+      const response = await orderBurgerApi(ingredients);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const getUserOrdersThunk = createAsyncThunk('orders/getAll', async () =>
+  getOrdersApi()
 );

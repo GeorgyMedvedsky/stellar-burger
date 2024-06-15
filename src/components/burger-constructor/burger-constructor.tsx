@@ -6,14 +6,14 @@ import {
   clearConstructor,
   selectConstructorItems
 } from '../../services/burger-constructor/slice';
+import { useNavigate } from 'react-router-dom';
 import {
   resetOrderState,
+  selectIsAuthenticated,
   selectOrderModalData,
   selectOrderRequest
-} from '../../services/user-orders/slice';
-import { createOrderThunk } from '../../services/user-orders/actions';
-import { useNavigate } from 'react-router-dom';
-import { selectIsAuthenticated } from '../../services/user/slice';
+} from '../../services/user/slice';
+import { createOrderThunk } from '../../services/user/actions';
 
 export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(selectConstructorItems);
