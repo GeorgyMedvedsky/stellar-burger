@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-import { createOrderThunk } from './actions';
+import { createOrderThunk, getUserOrdersthunk } from './actions';
 
 type TOrderState = {
-  order: TOrder | null;
+  orders: Array<TOrder>;
   orderRequest: boolean;
   orderModalData: TOrder | null;
   orderError: unknown;
 };
 
 const initialState: TOrderState = {
-  order: null,
+  orders: [],
   orderRequest: false,
   orderModalData: null,
   orderError: null
@@ -21,7 +21,7 @@ export const orderSlice = createSlice({
   initialState,
   reducers: {
     resetOrderState: (state) => {
-      state.order = null;
+      state.orders = [];
       state.orderRequest = false;
       state.orderModalData = null;
       state.orderError = null;
@@ -36,20 +36,22 @@ export const orderSlice = createSlice({
       .addCase(createOrderThunk.fulfilled, (state, action) => {
         state.orderRequest = false;
         state.orderModalData = action.payload.order;
-        state.order = action.payload.order;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
         state.orderRequest = false;
         state.orderError = action.payload;
+      })
+      .addCase(getUserOrdersthunk.fulfilled, (state, action) => {
+        state.orders = action.payload;
       });
   },
   selectors: {
     selectOrderModalData: (state) => state.orderModalData,
     selectOrderRequest: (state) => state.orderRequest,
-    selectOrder: (state) => state.order
+    selectUserOrders: (state) => state.orders
   }
 });
 
 export const { resetOrderState } = orderSlice.actions;
-export const { selectOrderModalData, selectOrderRequest, selectOrder } =
+export const { selectOrderModalData, selectOrderRequest, selectUserOrders } =
   orderSlice.selectors;
