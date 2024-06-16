@@ -2,11 +2,13 @@ import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { useSelector } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 
 import { useParams } from 'react-router-dom';
 import { selectOrders } from '../../services/feeds/slice';
 import { selectIngredients } from '../../services/ingredients/slice';
+import { selectOrder } from '../../services/user/slice';
+import { getOrderByNumberThunk } from '../../services/user/actions';
 
 interface OrderInfoProps {
   setOrderNumber: (number: number) => void;
@@ -14,16 +16,16 @@ interface OrderInfoProps {
 
 export const OrderInfo: FC<OrderInfoProps> = ({ setOrderNumber }) => {
   const number = Number(useParams().number);
+  const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(getOrderByNumberThunk(number));
     if (number) {
       setOrderNumber(number);
     }
   }, [number]);
 
-  const orderData = useSelector(selectOrders).find(
-    (order) => order.number == number
-  );
+  const orderData = useSelector(selectOrder);
 
   const ingredients: TIngredient[] = useSelector(selectIngredients);
 

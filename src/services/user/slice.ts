@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
 import {
   createOrderThunk,
+  getOrderByNumberThunk,
   getUserOrdersThunk,
   loginUserThunk,
   logoutUserThunk
@@ -9,6 +10,7 @@ import {
 
 type TAuthState = {
   data: TUser | null;
+  order: TOrder | null;
   orders: Array<TOrder>;
   orderModalData: TOrder | null;
   orderRequest: boolean;
@@ -20,6 +22,7 @@ type TAuthState = {
 
 const initialState: TAuthState = {
   data: null,
+  order: null,
   orders: [],
   orderModalData: null,
   orderRequest: false,
@@ -49,7 +52,8 @@ export const userSlice = createSlice({
     selectIsAuthenticated: (state) => state.isAuthenticated,
     selectOrderModalData: (state) => state.orderModalData,
     selectOrderRequest: (state) => state.orderRequest,
-    selectUserOrders: (state) => state.orders
+    selectUserOrders: (state) => state.orders,
+    selectOrder: (state) => state.order
   },
   extraReducers: (builder) => {
     builder
@@ -92,6 +96,18 @@ export const userSlice = createSlice({
       })
       .addCase(getUserOrdersThunk.fulfilled, (state, action) => {
         state.orders = action.payload;
+      })
+      .addCase(getOrderByNumberThunk.pending, (state) => {
+        state.orderRequest = true;
+        state.error = null;
+      })
+      .addCase(getOrderByNumberThunk.rejected, (state, action) => {
+        state.orderRequest = false;
+        state.error = action.error.message;
+      })
+      .addCase(getOrderByNumberThunk.fulfilled, (state, action) => {
+        state.orderRequest = false;
+        state.order = action.payload.orders[0];
       });
   }
 });
@@ -105,5 +121,6 @@ export const {
   selectIsAuthenticated,
   selectOrderModalData,
   selectOrderRequest,
-  selectUserOrders
+  selectUserOrders,
+  selectOrder
 } = userSlice.selectors;

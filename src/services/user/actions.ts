@@ -1,5 +1,6 @@
 import {
   TLoginData,
+  getOrderByNumberApi,
   getOrdersApi,
   getUserApi,
   loginUserApi,
@@ -50,6 +51,11 @@ export const createOrderThunk = createAsyncThunk(
     const response = await orderBurgerApi(ingredients);
     return response;
   }
+);
+
+export const getOrderByNumberThunk = createAsyncThunk(
+  'order/getOrder',
+  async (n: number) => getOrderByNumberApi(n)
 );
 
 export const getUserOrdersThunk = createAsyncThunk(
