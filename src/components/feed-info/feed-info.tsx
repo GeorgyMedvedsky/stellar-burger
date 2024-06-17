@@ -17,12 +17,12 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
     .slice(0, 20);
 
 export const FeedInfo: FC = () => {
+  const dispatch = useDispatch();
   const orders: TOrder[] = useSelector(selectOrders);
   const feed = {
     total: useSelector(selectTotal),
     totalToday: useSelector(selectTotalToday)
   };
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getFeedsThunk());

@@ -5,7 +5,8 @@ import {
   getUserApi,
   loginUserApi,
   logoutApi,
-  orderBurgerApi
+  orderBurgerApi,
+  refreshToken
 } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
@@ -24,15 +25,26 @@ export const loginUserThunk = createAsyncThunk(
   }
 );
 
-// export const getUserThunk = createAsyncThunk('auth/getUser', getUserApi);
+export const getUserThunk = createAsyncThunk('auth/getUser', getUserApi);
+export const refreshTokenThunk = createAsyncThunk('refreshToken', refreshToken);
 
 export const checkUserAuth = createAsyncThunk(
   'auth/checkUserAuth',
   async (_, { dispatch }) => {
-    if (getCookie('accessToken')) {
-      dispatch(getUserApi).finally(() => {
+    const accessToken = getCookie('accessToken');
+    if (accessToken) {
+      try {
+        await dispatch(getUserThunk());
+      } catch (error: any) {
+        if (error.message === 'jwt expired') {
+          await dispatch(refreshTokenThunk());
+          await dispatch(getUserThunk());
+        } else {
+          throw error;
+        }
+      } finally {
         dispatch(authChecked());
-      });
+      }
     } else {
       dispatch(authChecked());
     }
