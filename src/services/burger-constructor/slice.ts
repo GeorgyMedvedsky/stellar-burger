@@ -37,6 +37,18 @@ export const burgerConstructorSlice = createSlice({
         (i) => i.id !== action.payload
       );
     },
+    moveDown: (state, action: PayloadAction<number>) => {
+      const currentItem = state.ingredients[action.payload];
+      const targetItem = state.ingredients[action.payload + 1];
+      state.ingredients[action.payload] = targetItem;
+      state.ingredients[action.payload + 1] = currentItem;
+    },
+    moveUp: (state, action: PayloadAction<number>) => {
+      const currentItem = state.ingredients[action.payload];
+      const targetItem = state.ingredients[action.payload - 1];
+      state.ingredients[action.payload] = targetItem;
+      state.ingredients[action.payload - 1] = currentItem;
+    },
     clearConstructor: (state) => {
       state.bun = null;
       state.ingredients = [];
@@ -47,6 +59,6 @@ export const burgerConstructorSlice = createSlice({
   }
 });
 
-export const { addItem, removeItem, clearConstructor } =
+export const { addItem, removeItem, clearConstructor, moveDown, moveUp } =
   burgerConstructorSlice.actions;
 export const { selectConstructorItems } = burgerConstructorSlice.selectors;

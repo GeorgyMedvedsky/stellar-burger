@@ -16,9 +16,9 @@ import {
 import { createOrderThunk } from '../../services/user/actions';
 
 export const BurgerConstructor: FC = () => {
-  const constructorItems = useSelector(selectConstructorItems);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const constructorItems = useSelector(selectConstructorItems);
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   const orderRequest = useSelector(selectOrderRequest);
