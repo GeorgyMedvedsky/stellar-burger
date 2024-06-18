@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
 import {
   createOrderThunk,
   getOrderByNumberThunk,
   getUserOrdersThunk,
+  getUserThunk,
   loginUserThunk,
   logoutUserThunk
 } from './actions';
@@ -71,6 +72,9 @@ export const userSlice = createSlice({
         state.loginUserRequest = false;
         state.isAuthenticated = true;
         state.isAuthChecked = true;
+      })
+      .addCase(getUserThunk.fulfilled, (state, action) => {
+        state.data = action.payload.user;
       })
       .addCase(logoutUserThunk.pending, (state) => {
         state.error = null;
