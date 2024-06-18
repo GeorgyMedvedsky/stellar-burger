@@ -1,11 +1,13 @@
 import {
   TLoginData,
+  TRegisterData,
   getOrderByNumberApi,
   getOrdersApi,
   getUserApi,
   loginUserApi,
   logoutApi,
-  orderBurgerApi
+  orderBurgerApi,
+  updateUserApi
 } from '@api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { deleteCookie, getCookie, setCookie } from '../../utils/cookie';
@@ -36,6 +38,11 @@ export const checkUserAuth = createAsyncThunk(
       dispatch(authChecked());
     }
   }
+);
+
+export const updateUserThunk = createAsyncThunk(
+  'user/updateUser',
+  async (data: TRegisterData) => updateUserApi(data)
 );
 
 export const logoutUserThunk = createAsyncThunk('auth/logoutUser', async () => {

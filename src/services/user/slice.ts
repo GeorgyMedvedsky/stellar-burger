@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { TOrder, TUser } from '@utils-types';
 import {
   createOrderThunk,
@@ -6,7 +6,8 @@ import {
   getUserOrdersThunk,
   getUserThunk,
   loginUserThunk,
-  logoutUserThunk
+  logoutUserThunk,
+  updateUserThunk
 } from './actions';
 
 type TAuthState = {
@@ -74,6 +75,11 @@ export const userSlice = createSlice({
         state.isAuthChecked = true;
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
+        state.data = action.payload.user;
+        state.isAuthenticated = true;
+        state.isAuthChecked = true;
+      })
+      .addCase(updateUserThunk.fulfilled, (state, action) => {
         state.data = action.payload.user;
       })
       .addCase(logoutUserThunk.pending, (state) => {
