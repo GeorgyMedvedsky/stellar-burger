@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for slice.ts</title>
+    <title>Code coverage report for services/feeds/slice.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="prettify.css" />
-    <link rel="stylesheet" href="base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="index.html">All files</a> slice.ts</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">services/feeds</a> slice.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>59/59</span>
+                <span class='fraction'>44/48</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>10/10</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">91.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>59/59</span>
+                <span class='fraction'>44/48</span>
             </div>
         
             
@@ -111,41 +111,7 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a>
-<a name='L52'></a><a href='#L52'>52</a>
-<a name='L53'></a><a href='#L53'>53</a>
-<a name='L54'></a><a href='#L54'>54</a>
-<a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -177,69 +143,70 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { PayloadAction, createSlice, nanoid } from '@reduxjs/toolkit';
-import { TConstructorIngredient, TIngredient } from '@utils-types';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createSlice } from '@reduxjs/toolkit';
+import { TOrdersData } from '@utils-types';
+import { getFeedsThunk } from './action';
 &nbsp;
-export type TConstructorState = {
-  bun: TIngredient | null;
-  ingredients: Array&lt;TConstructorIngredient&gt;;
+export type TFeedsData = TOrdersData &amp; {
+  isLoading: boolean;
+  error: null | string | undefined;
 };
 &nbsp;
-const initialState: TConstructorState = {
-  bun: null,
-  ingredients: []
+const initialState: TFeedsData = {
+  orders: [],
+  total: 0,
+  totalToday: 0,
+  isLoading: false,
+  error: null
 };
 &nbsp;
-export const burgerConstructorSlice = createSlice({
-  name: 'burgerConstructor',
+export const feedsSlice = createSlice({
+  name: 'feeds',
   initialState,
-  reducers: {
-    addItem: {
-      reducer: (state, action: PayloadAction&lt;TConstructorIngredient&gt;) =&gt; {
-        if (action.payload.type === 'bun') {
-          state.bun = action.payload;
-        } else {
-          state.ingredients.push(action.payload);
-        }
-      },
-      prepare: (ingredient: TIngredient) =&gt; ({
-        payload: { ...ingredient, id: nanoid() }
+  reducers: {},
+  extraReducers: (build) =&gt; {
+    build
+      .addCase(getFeedsThunk.pending, (state) =&gt; {
+        state.isLoading = true;
+        state.error = null;
       })
-    },
-    removeItem: (state, action: PayloadAction&lt;string&gt;) =&gt; {
-      state.ingredients = state.ingredients.filter(
-        (i) =&gt; i.id !== action.payload
-      );
-    },
-    moveDown: (state, action: PayloadAction&lt;number&gt;) =&gt; {
-      const currentItem = state.ingredients[action.payload];
-      const targetItem = state.ingredients[action.payload + 1];
-      state.ingredients[action.payload] = targetItem;
-      state.ingredients[action.payload + 1] = currentItem;
-    },
-    moveUp: (state, action: PayloadAction&lt;number&gt;) =&gt; {
-      const currentItem = state.ingredients[action.payload];
-      const targetItem = state.ingredients[action.payload - 1];
-      state.ingredients[action.payload] = targetItem;
-      state.ingredients[action.payload - 1] = currentItem;
-    },
-    clearConstructor: (state) =&gt; {
-      state.bun = null;
-      state.ingredients = [];
-    }
+      .addCase(getFeedsThunk.rejected, (state, action) =&gt; {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(getFeedsThunk.fulfilled, (state, action) =&gt; {
+<span class="cstat-no" title="statement not covered" >        state.isLoading = false;</span>
+<span class="cstat-no" title="statement not covered" >        state.orders = action.payload.orders;</span>
+<span class="cstat-no" title="statement not covered" >        state.total = action.payload.total;</span>
+<span class="cstat-no" title="statement not covered" >        state.totalToday = action.payload.totalToday;</span>
+      });
   },
   selectors: {
-    selectConstructorItems: (state) =&gt; state
+    selectIsLoading: <span class="fstat-no" title="function not covered" >(state) =&gt; state.</span>isLoading,
+    selectOrders: <span class="fstat-no" title="function not covered" >(state) =&gt; state.</span>orders,
+    selectTotal: <span class="fstat-no" title="function not covered" >(state) =&gt; state.</span>total,
+    selectTotalToday: <span class="fstat-no" title="function not covered" >(state) =&gt; state.</span>totalToday
   }
 });
 &nbsp;
-export const { addItem, removeItem, clearConstructor, moveDown, moveUp } =
-  burgerConstructorSlice.actions;
-export const { selectConstructorItems } = burgerConstructorSlice.selectors;
+export const { selectIsLoading, selectOrders, selectTotal, selectTotalToday } =
+  feedsSlice.selectors;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -247,16 +214,16 @@ export const { selectConstructorItems } = burgerConstructorSlice.selectors;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-06-27T13:22:01.520Z
+                at 2024-06-27T13:32:04.893Z
             </div>
-        <script src="prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="sorter.js"></script>
-        <script src="block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     
