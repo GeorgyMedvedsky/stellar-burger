@@ -1,7 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import * as api from '../../utils/burger-api';
 import { expect, test, describe, jest } from '@jest/globals';
-import { feedsSlice, selectIsLoading, selectOrders, selectTotal, selectTotalToday } from './slice';
+import {
+  feedsSlice,
+  selectIsLoading,
+  selectOrders,
+  selectTotal,
+  selectTotalToday
+} from './slice';
 import { getFeedsThunk } from './action';
 
 jest.mock('../../utils/burger-api');
@@ -25,7 +31,7 @@ const expectedOrders = [
     number: 2,
     ingredients: ['test-id-1', 'test-id-2']
   }
-]
+];
 
 describe('тесты асинхронных экшенов', () => {
   const expectedFeeds = {
@@ -36,7 +42,9 @@ describe('тесты асинхронных экшенов', () => {
   };
 
   test('получение данных о заказах', async () => {
-    const getFeedsMock = jest.spyOn(api, 'getFeedsApi').mockResolvedValue(expectedFeeds);
+    const getFeedsMock = jest
+      .spyOn(api, 'getFeedsApi')
+      .mockResolvedValue(expectedFeeds);
     const store = configureStore({
       reducer: {
         feedsReducer: feedsSlice.reducer
@@ -80,9 +88,13 @@ describe('тесты селекторов', () => {
   });
 
   test('selectIsLoading должен возвращать состояние загрузки', () => {
-    expect(selectIsLoading({feeds: store.getState().feedsReducer})).toEqual(false);
+    expect(selectIsLoading({ feeds: store.getState().feedsReducer })).toEqual(
+      false
+    );
     store.dispatch({ type: 'feeds/getAll/pending' });
-    expect(selectIsLoading({feeds: store.getState().feedsReducer})).toEqual(true);
+    expect(selectIsLoading({ feeds: store.getState().feedsReducer })).toEqual(
+      true
+    );
   });
 
   test('selectOrders должен возвращать заказы', () => {
@@ -91,7 +103,9 @@ describe('тесты селекторов', () => {
       type: 'feeds/getAll/fulfilled',
       payload: { orders, total: 2, totalToday: 1 }
     });
-    expect(selectOrders({feeds: store.getState().feedsReducer})).toEqual(orders);
+    expect(selectOrders({ feeds: store.getState().feedsReducer })).toEqual(
+      orders
+    );
   });
 
   test('selectTotal должен возвращать общее количество', () => {
@@ -100,7 +114,9 @@ describe('тесты селекторов', () => {
       type: 'feeds/getAll/fulfilled',
       payload: { orders: [], total, totalToday: 1 }
     });
-    expect(selectTotal({feeds: store.getState().feedsReducer})).toEqual(total);
+    expect(selectTotal({ feeds: store.getState().feedsReducer })).toEqual(
+      total
+    );
   });
 
   test('selectTotalToday должен возвращать количество за сегодня', () => {
@@ -109,11 +125,12 @@ describe('тесты селекторов', () => {
       type: 'feeds/getAll/fulfilled',
       payload: { orders: [], total: 5, totalToday }
     });
-    expect(selectTotalToday({feeds: store.getState().feedsReducer})).toEqual(totalToday);
+    expect(selectTotalToday({ feeds: store.getState().feedsReducer })).toEqual(
+      totalToday
+    );
   });
 
   test('selectOrders должен возвращать пустой массив, если нет заказов', () => {
-    expect(selectOrders({feeds: store.getState().feedsReducer})).toEqual([]);
+    expect(selectOrders({ feeds: store.getState().feedsReducer })).toEqual([]);
   });
 });
-

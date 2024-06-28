@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1719575783310" clover="3.2.0">
-  <project timestamp="1719575783310" name="All files">
-    <metrics statements="395" coveredstatements="196" conditionals="17" coveredconditionals="17" methods="30" coveredmethods="12" elements="442" coveredelements="225" complexity="0" loc="395" ncloc="395" packages="3" files="5" classes="5"/>
+<coverage generated="1719582396694" clover="3.2.0">
+  <project timestamp="1719582396694" name="All files">
+    <metrics statements="445" coveredstatements="244" conditionals="22" coveredconditionals="22" methods="33" coveredmethods="15" elements="500" coveredelements="281" complexity="0" loc="445" ncloc="445" packages="4" files="7" classes="7"/>
     <package name="services.burger-constructor">
       <metrics statements="59" coveredstatements="59" conditionals="10" coveredconditionals="10" methods="7" coveredmethods="7"/>
       <file name="slice.ts" path="/home/georgy/dev/stellar-burger/src/services/burger-constructor/slice.ts">
@@ -126,6 +126,65 @@
         <line num="46" count="1" type="stmt"/>
         <line num="47" count="1" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="services.ingredients">
+      <metrics statements="50" coveredstatements="48" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
+      <file name="action.ts" path="/home/georgy/dev/stellar-burger/src/services/ingredients/action.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+      </file>
+      <file name="slice.ts" path="/home/georgy/dev/stellar-burger/src/services/ingredients/slice.ts">
+        <metrics statements="43" coveredstatements="41" conditionals="5" coveredconditionals="5" methods="3" coveredmethods="3"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+        <line num="19" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="21" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="27" count="1" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="32" count="2" type="stmt"/>
+        <line num="33" count="2" type="stmt"/>
+        <line num="34" count="1" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="37" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="38" count="1" type="cond" truecount="1" falsecount="0"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="41" count="1" type="stmt"/>
+        <line num="42" count="1" type="stmt"/>
+        <line num="43" count="1" type="stmt"/>
       </file>
     </package>
     <package name="utils">
