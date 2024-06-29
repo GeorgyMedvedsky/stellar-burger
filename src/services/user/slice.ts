@@ -10,7 +10,7 @@ import {
   updateUserThunk
 } from './actions';
 
-type TAuthState = {
+export type TAuthState = {
   data: TUser | null;
   order: TOrder | null;
   orders: Array<TOrder>;

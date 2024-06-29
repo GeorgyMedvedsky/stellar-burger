@@ -5,7 +5,9 @@ import { getIngredientsThunk } from './action';
 import { ingredientsSlice, selectIngredients, selectIsLoading } from './slice';
 import { error } from 'console';
 
-jest.mock('../../utils/burger-api');
+jest.mock('../../utils/burger-api', () => ({
+  getIngredientsApi: jest.fn()
+}));
 
 const expectedIngredients = [
   {
@@ -37,25 +39,23 @@ const expectedIngredients = [
 ];
 
 describe('тесты асинхронных экшенов', () => {
-  const expectedState = {
+  const initialState = {
     isLoading: false,
     error: null,
     ingredients: expectedIngredients
   };
 
-  test('получение иншредиентов', async () => {
+  test('успешное получение данных', async () => {
     const getIngredientsMock = jest
       .spyOn(api, 'getIngredientsApi')
       .mockResolvedValue(expectedIngredients);
     const store = configureStore({
-      reducer: {
-        ingredientsReducer: ingredientsSlice.reducer
-      }
+      reducer: ingredientsSlice.reducer
     });
     await store.dispatch(getIngredientsThunk());
-    const state = store.getState().ingredientsReducer;
+    const state = store.getState();
     expect(getIngredientsMock).toHaveBeenCalled();
-    expect(state.ingredients).toEqual(expectedState.ingredients);
+    expect(state.ingredients).toEqual(initialState.ingredients);
     expect(state.isLoading).toBe(false);
     expect(state.error).toBe(null);
     getIngredientsMock.mockRestore();
@@ -101,6 +101,8 @@ describe('тесты селекторов', () => {
       type: 'ingredients/getAll/fulfilled',
       payload: ingredients
     });
-    expect(selectIngredients({ ingredients: store.getState().ingredients })).toEqual(ingredients);
+    expect(
+      selectIngredients({ ingredients: store.getState().ingredients })
+    ).toEqual(ingredients);
   });
 });

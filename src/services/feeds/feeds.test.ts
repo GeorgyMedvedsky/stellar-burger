@@ -10,7 +10,9 @@ import {
 } from './slice';
 import { getFeedsThunk } from './action';
 
-jest.mock('../../utils/burger-api');
+jest.mock('../../utils/burger-api', () => ({
+  getFeedsApi: jest.fn()
+}));
 
 const expectedOrders = [
   {
@@ -41,15 +43,16 @@ describe('тесты асинхронных экшенов', () => {
     totalToday: 2
   };
 
-  test('получение данных о заказах', async () => {
-    const getFeedsMock = jest
-      .spyOn(api, 'getFeedsApi')
-      .mockResolvedValue(expectedFeeds);
+  test('успешное получение данных', async () => {
     const store = configureStore({
       reducer: {
         feedsReducer: feedsSlice.reducer
       }
     });
+    const getFeedsMock = jest
+      .spyOn(api, 'getFeedsApi')
+      .mockResolvedValue(expectedFeeds);
+
     await store.dispatch(getFeedsThunk());
     const state = store.getState().feedsReducer;
 

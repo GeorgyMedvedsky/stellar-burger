@@ -49,24 +49,29 @@ describe('тесты реддюсеров', () => {
   });
 
   test('тест добавления булки в конструктор', () => {
-    const action = addItem(bun);
-    const newState = burgerConstructorSlice.reducer(initialState, action);
+    const newState = burgerConstructorSlice.reducer(initialState, addItem(bun));
     const expectedBun = newState.bun;
     expect(expectedBun).toEqual(expect.objectContaining(bun));
   });
 
   test('тест добавления ингредиента в конструктор', () => {
-    const action = addItem(ingredient);
-    const newState = burgerConstructorSlice.reducer(initialState, action);
+    const newState = burgerConstructorSlice.reducer(
+      initialState,
+      addItem(ingredient)
+    );
     const expectedIngredient = newState.ingredients[0];
     expect(expectedIngredient).toEqual(expect.objectContaining(ingredient));
   });
 
   test('тест удаления ингредиента из конструктора', () => {
-    const actionAdd = addItem(ingredient);
-    let newState = burgerConstructorSlice.reducer(initialState, actionAdd);
-    const actionRemove = removeItem(newState.ingredients[0].id);
-    newState = burgerConstructorSlice.reducer(newState, actionRemove);
+    let newState = burgerConstructorSlice.reducer(
+      initialState,
+      addItem(ingredient)
+    );
+    newState = burgerConstructorSlice.reducer(
+      newState,
+      removeItem(newState.ingredients[0].id)
+    );
     expect(newState.ingredients).not.toContainEqual(
       expect.objectContaining(ingredient)
     );
@@ -74,7 +79,10 @@ describe('тесты реддюсеров', () => {
 
   test('тест перемещения ингредиента вниз', () => {
     const actionAddFirst = addItem(ingredient);
-    let newState = burgerConstructorSlice.reducer(initialState, actionAddFirst);
+    let newState = burgerConstructorSlice.reducer(
+      initialState,
+      addItem(ingredient)
+    );
     const actionAddSecond = addItem({ ...ingredient, _id: nanoid() });
     newState = burgerConstructorSlice.reducer(newState, actionAddSecond);
     const actionMoveDown = moveDown(0);
