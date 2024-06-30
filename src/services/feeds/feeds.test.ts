@@ -35,105 +35,94 @@ const expectedOrders = [
   }
 ];
 
-// describe('тесты асинхронных экшенов', () => {
-//   let store;
-//   const expectedFeeds = {
-//     success: true,
-//     orders: expectedOrders,
-//     total: 2,
-//     totalToday: 2
-//   };
-//   afterEach(() => {});
+const mockResult = {
+      success: true,
+      orders: expectedOrders,
+      total: 2,
+      totalToday: 2
+    };
 
-//   test('getFeedsThunk успешно ', async () => {
-//     store = configureStore({
-//       reducer: feedsSlice.reducer
-//     });
-//     const getFeedsMock = jest
-//       .spyOn(api, 'getFeedsApi')
-//       .mockResolvedValue(expectedFeeds);
+describe('тесты асинхронных экшенов', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-//     await store.dispatch(getFeedsThunk());
-//     const state = store.getState();
+  test('состояние изменяется при успешном запросе', async () => {
+    const store = configureStore({
+      reducer: feedsSlice.reducer
+    });
+    const getFeedsMock = jest
+      .spyOn(api, 'getFeedsApi')
+      .mockResolvedValue(mockResult);
 
-//     expect(getFeedsMock).toHaveBeenCalled();
-//     expect(state.orders).toEqual(expectedFeeds.orders);
-//     expect(state.total).toEqual(expectedFeeds.total);
-//     expect(state.totalToday).toEqual(expectedFeeds.totalToday);
-//     expect(state.isLoading).toBe(false);
-//     expect(state.error).toBe(null);
+    await store.dispatch(getFeedsThunk());
+    const state = store.getState();
 
-//     getFeedsMock.mockRestore();
-//   });
+    expect(getFeedsMock).toHaveBeenCalled();
+    expect(state.orders).toEqual(mockResult.orders);
+    expect(state.total).toEqual(mockResult.total);
+    expect(state.totalToday).toEqual(mockResult.totalToday);
+    expect(state.isLoading).toBe(false);
+    expect(state.error).toBe(null);
+  });
 
-//   test('тест обработки ошибки при загрузке данных о заказах', async () => {
-//     const errorMessage = 'Ошибка загрузки';
-//     const getFeedsMock = jest
-//       .spyOn(api, 'getFeedsApi')
-//       .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+  test('обновление error при отклонении промиса', async () => {
+    const store = configureStore({
+      reducer: feedsSlice.reducer
+    });
+    const errorMessage = 'Ошибка загрузки';
+    const getFeedsMock = jest.spyOn(api, 'getFeedsApi').mockRejectedValue(new Error(errorMessage));
 
-//     try {
-//       await api.getFeedsApi();
-//     } catch (error) {
-//       expect(getFeedsMock).toBeCalled();
-//       if (error instanceof Error) {
-//         expect(error.message).toBe(errorMessage);
-//       }
-//     }
-//   });
-// });
+    await store.dispatch(getFeedsThunk());
+    const state = store.getState();
+
+    expect(getFeedsMock).toBeCalled();
+    expect(state.error).toBe(errorMessage);
+  });
+});
 
 describe('тесты селекторов', () => {
   const store = configureStore({
-    reducer: {
-      feeds: feedsSlice.reducer
-    }
-  });
-
-  test('selectIsLoading должен возвращать состояние загрузки', () => {
-    expect(selectIsLoading({ feeds: store.getState().feeds })).toEqual(
-      false
-    );
-    store.dispatch({ type: 'feeds/getAll/pending' });
-    expect(selectIsLoading({ feeds: store.getState().feeds })).toEqual(
-      true
-    );
-  });
-
-  test('selectOrders должен возвращать заказы', () => {
-    const orders = expectedOrders;
-    store.dispatch({
-      type: 'feeds/getAll/fulfilled',
-      payload: { orders, total: 2, totalToday: 1 }
-    });
-    expect(selectOrders({ feeds: store.getState().feeds })).toEqual(
-      orders
-    );
-  });
-
-  test('selectTotal должен возвращать общее количество', () => {
-    const total = 5;
-    store.dispatch({
-      type: 'feeds/getAll/fulfilled',
-      payload: { orders: [], total, totalToday: 1 }
-    });
-    expect(selectTotal({ feeds: store.getState().feeds })).toEqual(
-      total
-    );
-  });
-
-  test('selectTotalToday должен возвращать количество за сегодня', () => {
-    const totalToday = 3;
-    store.dispatch({
-      type: 'feeds/getAll/fulfilled',
-      payload: { orders: [], total: 5, totalToday }
-    });
-    expect(selectTotalToday({ feeds: store.getState().feeds })).toEqual(
-      totalToday
-    );
+    reducer: feedsSlice.reducer
   });
 
   test('selectOrders должен возвращать пустой массив, если нет заказов', () => {
-    expect(selectOrders({ feeds: store.getState().feeds })).toEqual([]);
+    const orders = selectOrders({ feeds: store.getState() });
+    expect(orders).toEqual([]);
+  });
+
+  test('selectIsLoading должен возвращать состояние загрузки', () => {
+    let isLoading = selectIsLoading({ feeds: store.getState() });
+    expect(isLoading).toEqual(false);
+    store.dispatch({ type: 'feeds/getAll/pending' });
+    isLoading = selectIsLoading({feeds: store.getState()});
+    expect(isLoading).toEqual(true);
+  });
+
+  test('selectOrders должен возвращать заказы', () => {
+    store.dispatch({
+      type: 'feeds/getAll/fulfilled',
+      payload: { orders: expectedOrders, total: 2, totalToday: 2 }
+    });
+    const orders = selectOrders({ feeds: store.getState() });
+    expect(orders).toEqual(expectedOrders);
+  });
+
+  test('selectTotal должен возвращать общее количество', () => {
+    store.dispatch({
+      type: 'feeds/getAll/fulfilled',
+      payload: { orders: expectedOrders, total: 2, totalToday: 2 }
+    });
+    const total = selectTotal({ feeds: store.getState() });
+    expect(total).toBe(2);
+  });
+
+  test('selectTotalToday должен возвращать количество за сегодня', () => {
+    store.dispatch({
+      type: 'feeds/getAll/fulfilled',
+      payload: { orders: expectedOrders, total: 2, totalToday: 2 }
+    });
+    const totalToday = selectTotalToday({ feeds: store.getState() });
+    expect(totalToday).toBe(2);
   });
 });

@@ -1,6 +1,5 @@
 import { describe, test, expect, beforeEach } from '@jest/globals';
 import {
-  TConstructorState,
   burgerConstructorSlice,
   addItem,
   removeItem,
@@ -9,9 +8,9 @@ import {
   clearConstructor,
   selectConstructorItems
 } from './slice';
-import { configureStore, nanoid } from '@reduxjs/toolkit';
+import { nanoid } from '@reduxjs/toolkit';
 
-const initialState: TConstructorState = {
+const initialState = {
   bun: null,
   ingredients: []
 };
