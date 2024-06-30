@@ -1,9 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit';
 import * as api from '../../utils/burger-api';
-import { expect, test, describe, jest } from '@jest/globals';
+import { expect, test, describe, jest, afterEach } from '@jest/globals';
 import { getIngredientsThunk } from './action';
 import { ingredientsSlice, selectIngredients, selectIsLoading } from './slice';
-import { error } from 'console';
 
 jest.mock('../../utils/burger-api', () => ({
   getIngredientsApi: jest.fn()
@@ -39,70 +38,63 @@ const expectedIngredients = [
 ];
 
 describe('тесты асинхронных экшенов', () => {
-  const initialState = {
-    isLoading: false,
-    error: null,
-    ingredients: expectedIngredients
-  };
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-  test('успешное получение данных', async () => {
-    const getIngredientsMock = jest
-      .spyOn(api, 'getIngredientsApi')
-      .mockResolvedValue(expectedIngredients);
+  test('состояние изменяется при успешном запросе', async () => {
     const store = configureStore({
       reducer: ingredientsSlice.reducer
     });
+    const getIngredientsMock = jest
+      .spyOn(api, 'getIngredientsApi')
+      .mockResolvedValue(expectedIngredients);
+
     await store.dispatch(getIngredientsThunk());
     const state = store.getState();
+
     expect(getIngredientsMock).toHaveBeenCalled();
-    expect(state.ingredients).toEqual(initialState.ingredients);
+    expect(state.ingredients).toEqual(expectedIngredients);
     expect(state.isLoading).toBe(false);
     expect(state.error).toBe(null);
-    getIngredientsMock.mockRestore();
   });
 
-  test('тест обработки ошибки при загрузке ингредиентов', async () => {
+  test('обновление error при отклонении промиса', async () => {
+    const store = configureStore({
+      reducer: ingredientsSlice.reducer
+    });
     const errorMessage = 'Ошибка загрузки';
     const getIngredientsMock = jest
       .spyOn(api, 'getIngredientsApi')
-      .mockImplementationOnce(() => Promise.reject(new Error(errorMessage)));
+      .mockRejectedValue(new Error(errorMessage));
 
-    try {
-      await api.getIngredientsApi();
-    } catch (error) {
-      expect(getIngredientsMock).toBeCalled();
-      if (error instanceof Error) {
-        expect(error.message).toBe(errorMessage);
-      }
-    }
+    await store.dispatch(getIngredientsThunk());
+    const state = store.getState();
+
+    expect(getIngredientsMock).toBeCalled();
+    expect(state.error).toBe(errorMessage);
   });
 });
 
 describe('тесты селекторов', () => {
   const store = configureStore({
-    reducer: {
-      ingredients: ingredientsSlice.reducer
-    }
+    reducer: ingredientsSlice.reducer
   });
 
   test('selectIsLoading должен возвращать состояние загрузки', () => {
-    expect(
-      selectIsLoading({ ingredients: store.getState().ingredients })
-    ).toEqual(false);
+    let isLoading = selectIsLoading({ ingredients: store.getState() });
+    expect(isLoading).toEqual(false);
     store.dispatch({ type: 'ingredients/getAll/pending' });
-    expect(
-      selectIsLoading({ ingredients: store.getState().ingredients })
-    ).toEqual(true);
+    isLoading = selectIsLoading({ ingredients: store.getState() });
+    expect(isLoading).toBe(true);
   });
 
   test('selectIngredients должен возвращать ингредиенты', () => {
-    const ingredients = expectedIngredients;
     store.dispatch({
       type: 'ingredients/getAll/fulfilled',
-      payload: ingredients
+      payload: expectedIngredients
     });
-    expect(
-      selectIngredients({ ingredients: store.getState().ingredients })
-    ).toEqual(ingredients);
+    const ingredients = selectIngredients({ ingredients: store.getState() });
+    expect(ingredients).toEqual(expectedIngredients);
   });
 });
