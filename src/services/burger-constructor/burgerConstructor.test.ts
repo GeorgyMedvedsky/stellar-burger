@@ -11,127 +11,94 @@ import {
 } from './slice';
 import { configureStore, nanoid } from '@reduxjs/toolkit';
 
-describe('тесты реддюсеров', () => {
-  const initialState: TConstructorState = {
-    bun: null,
-    ingredients: []
-  };
-  const bun = {
-    _id: nanoid(),
-    name: 'Test Bun',
-    type: 'bun',
-    proteins: 10,
-    fat: 5,
-    carbohydrates: 10,
-    calories: 30,
-    price: 200,
-    image: 'test-image.jpg',
-    image_large: 'test-image-large.jpg',
-    image_mobile: 'test-image-mobile.jpg'
-  };
-  const ingredient = {
-    _id: nanoid(),
-    name: 'Test Ingredient',
-    type: 'main',
-    proteins: 20,
-    fat: 15,
-    carbohydrates: 12,
-    calories: 37,
-    price: 270,
-    image: 'test-image.jpg',
-    image_large: 'test-image-large.jpg',
-    image_mobile: 'test-image-mobile.jpg'
-  };
+const initialState: TConstructorState = {
+  bun: null,
+  ingredients: []
+};
+const bun = {
+  _id: nanoid(),
+  name: 'Test Bun',
+  type: 'bun',
+  proteins: 10,
+  fat: 5,
+  carbohydrates: 10,
+  calories: 30,
+  price: 200,
+  image: 'test-image.jpg',
+  image_large: 'test-image-large.jpg',
+  image_mobile: 'test-image-mobile.jpg'
+};
+const ingredient = {
+  _id: nanoid(),
+  name: 'Test Ingredient',
+  type: 'main',
+  proteins: 20,
+  fat: 15,
+  carbohydrates: 12,
+  calories: 37,
+  price: 270,
+  image: 'test-image.jpg',
+  image_large: 'test-image-large.jpg',
+  image_mobile: 'test-image-mobile.jpg'
+};
 
+describe('тесты реддюсеров', () => {
   beforeEach(() => {
     initialState.bun = null;
     initialState.ingredients = [];
   });
 
-  test('тест добавления булки в конструктор', () => {
-    const newState = burgerConstructorSlice.reducer(initialState, addItem(bun));
-    const expectedBun = newState.bun;
-    expect(expectedBun).toEqual(expect.objectContaining(bun));
+  test('возврат состояния при передаче некорректного экшена', () => {
+    const state = burgerConstructorSlice.reducer(initialState, { type: '', payload: '' });
+    expect(state).toEqual(initialState);
   });
 
-  test('тест добавления ингредиента в конструктор', () => {
-    const newState = burgerConstructorSlice.reducer(
-      initialState,
-      addItem(ingredient)
-    );
-    const expectedIngredient = newState.ingredients[0];
-    expect(expectedIngredient).toEqual(expect.objectContaining(ingredient));
+  test('добавление булки в конструктор', () => {
+    const state = burgerConstructorSlice.reducer(initialState, addItem(bun));
+    expect(state.bun).toEqual({...bun, id: expect.any(String)});
   });
 
-  test('тест удаления ингредиента из конструктора', () => {
-    let newState = burgerConstructorSlice.reducer(
-      initialState,
-      addItem(ingredient)
-    );
-    newState = burgerConstructorSlice.reducer(
-      newState,
-      removeItem(newState.ingredients[0].id)
-    );
-    expect(newState.ingredients).not.toContainEqual(
+  test('добавление ингредиента в конструктор', () => {
+    const state = burgerConstructorSlice.reducer(initialState, addItem(ingredient));
+    expect(state.ingredients[0]).toEqual({...ingredient, id: expect.any(String)});
+  });
+
+  test('удаление ингредиента из конструктора', () => {
+    let state = burgerConstructorSlice.reducer(initialState, addItem(ingredient));
+    const removedItem = state.ingredients[0];
+    state = burgerConstructorSlice.reducer(state, removeItem(removedItem.id));
+    expect(state.ingredients).toEqual([]);
+  });
+
+  test('перемещение ингредиента вниз', () => {
+    let state = burgerConstructorSlice.reducer(initialState, addItem(ingredient));
+    state = burgerConstructorSlice.reducer(state, addItem({ ...ingredient, _id: nanoid() }));
+    state = burgerConstructorSlice.reducer(state, moveDown(0));
+    expect(state.ingredients[1]).toEqual(
       expect.objectContaining(ingredient)
     );
   });
 
-  test('тест перемещения ингредиента вниз', () => {
-    const actionAddFirst = addItem(ingredient);
-    let newState = burgerConstructorSlice.reducer(
-      initialState,
-      addItem(ingredient)
-    );
-    const actionAddSecond = addItem({ ...ingredient, _id: nanoid() });
-    newState = burgerConstructorSlice.reducer(newState, actionAddSecond);
-    const actionMoveDown = moveDown(0);
-    newState = burgerConstructorSlice.reducer(newState, actionMoveDown);
-    expect(newState.ingredients[1]).toEqual(
+  test('перемещение ингредиента вверх', () => {
+    let state = burgerConstructorSlice.reducer(initialState, addItem({ ...ingredient, _id: nanoid() }));
+    state = burgerConstructorSlice.reducer(state, addItem(ingredient));
+    state = burgerConstructorSlice.reducer(state, moveUp(1));
+    expect(state.ingredients[0]).toEqual(
       expect.objectContaining(ingredient)
     );
   });
 
-  test('тест перемещения ингредиента вверх', () => {
-    const actionAddFirst = addItem(ingredient);
-    let newState = burgerConstructorSlice.reducer(initialState, actionAddFirst);
-    const actionAddSecond = addItem({ ...ingredient, _id: nanoid() });
-    newState = burgerConstructorSlice.reducer(newState, actionAddSecond);
-    const actionMoveUp = moveUp(1);
-    newState = burgerConstructorSlice.reducer(newState, actionMoveUp);
-    expect(newState.ingredients[0]).toEqual(
-      expect.objectContaining({ ...ingredient, _id: expect.any(String) })
-    );
-  });
-
-  test('тест очистки конструктора', () => {
-    const actionAddBun = addItem(bun);
-    let newState = burgerConstructorSlice.reducer(initialState, actionAddBun);
-    const actionAddIngredient = addItem(ingredient);
-    newState = burgerConstructorSlice.reducer(newState, actionAddIngredient);
-    const actionClear = clearConstructor();
-    newState = burgerConstructorSlice.reducer(newState, actionClear);
-    expect(newState).toEqual(initialState);
+  test('очистка конструктора', () => {
+    let state = burgerConstructorSlice.reducer(initialState, addItem(bun));
+    state = burgerConstructorSlice.reducer(state, addItem(ingredient));
+    state = burgerConstructorSlice.reducer(state, clearConstructor());
+    expect(state).toEqual(initialState);
   });
 });
 
 describe('тесты селекторов', () => {
-  test('тест на получение состояния', () => {
-    const store = configureStore({
-      reducer: {
-        burgerConstructor: burgerConstructorSlice.reducer
-      },
-      preloadedState: {
-        burgerConstructor: {
-          bun: null,
-          ingredients: []
-        }
-      }
-    });
-    const constructorItems = selectConstructorItems(store.getState());
-    expect(constructorItems).toEqual({
-      bun: null,
-      ingredients: []
-    });
+  test('получение состояния', () => {
+    const constructorItems = selectConstructorItems({ burgerConstructor: initialState });
+    expect(constructorItems).toEqual(initialState);
   });
 });
