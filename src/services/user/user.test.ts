@@ -1,127 +1,164 @@
 import { configureStore } from '@reduxjs/toolkit';
-import {
-  authChecked,
-  resetOrderState,
-  selectUser,
-  selectAuthChecked,
-  selectError,
-  selectIsLoading,
-  selectIsAuthenticated,
-  selectOrderModalData,
-  selectOrderRequest,
-  selectUserOrders,
-  selectOrder,
-  userSlice
-} from './slice';
-import { expect, test, describe, jest } from '@jest/globals';
-import {
-  loginUserThunk,
-  getUserThunk,
-  checkUserAuth,
-  updateUserThunk,
-  logoutUserThunk,
-  createOrderThunk,
-  getOrderByNumberThunk,
-  getUserOrdersThunk
-} from './actions';
 import * as api from '../../utils/burger-api';
+import { expect, test, describe, jest, afterEach } from '@jest/globals';
+import * as actions from './actions';
+import { selectAuthChecked, selectError, selectIsAuthenticated, selectIsLoading, selectOrder, selectOrderModalData, selectOrderRequest, selectUser, selectUserOrders, userSlice } from './slice';
 
 jest.mock('../../utils/burger-api', () => ({
   registerUserApi: jest.fn(),
   loginUserApi: jest.fn(),
+  forgotPasswordApi: jest.fn(),
+  resetPasswordApi: jest.fn(),
   getUserApi: jest.fn(),
   updateUserApi: jest.fn(),
-  logoutApi: jest.fn(),
-  orderBurgerApi: jest.fn(),
-  getOrderByNumberApi: jest.fn(),
-  getOrdersApi: jest.fn()
+  logoutApi: jest.fn()
 }));
 
-const registerData = {
-  email: 'test@test.com',
-  name: 'Test Name',
-  password: 'password'
-};
-const loginData = {
-  email: 'test@test.com',
-  password: 'password'
-};
 const userData = {
   email: 'test@test.com',
-  name: 'Test Name'
+  name: 'Test User'
 };
-const expectedResponse = {
-  success: true,
-  user: userData,
-  accessToken: 'beuhrfbshnjdn',
-  refreshToken: 'efgfhdjbjhs'
-};
-const expectedOrders = [
-  {
-    _id: 'item-1',
-    status: 'done',
-    name: 'Test Item 1',
-    createdAt: '01-01-1990',
-    updatedAt: '02-01-1990',
-    number: 1,
-    ingredients: ['test-id-1', 'test-id-2']
-  },
-  {
-    _id: 'item-2',
-    status: 'done',
-    name: 'Test Item 2',
-    createdAt: '01-01-1990',
-    updatedAt: '02-01-1990',
-    number: 2,
-    ingredients: ['test-id-1', 'test-id-2']
-  }
-];
-const initialState = {
-  data: null,
-  order: null,
-  orders: [],
-  orderModalData: null,
-  orderRequest: false,
-  isAuthChecked: false,
-  isAuthenticated: false,
-  loginUserRequest: false,
-  error: null
+const loginUserData = {
+  email: 'test@test.com',
+  password: 'password'
 };
 
-// describe('тесты редьюсеров', () => {
-  // let store = configureStore({
-  //   reducer: {
-  //     user: userSlice.reducer
-  //   }
-  // });
+describe('тесты асинхронных экшенов', () => {
+  let store = configureStore({
+    reducer: userSlice.reducer
+  });
 
-  // beforeEach(() => {
-  //   store = configureStore({
-  //     reducer: {
-  //       user: userSlice.reducer
-  //     }
-  //   });
-  // });
+  beforeEach(() => {
+    store = configureStore({
+      reducer: userSlice.reducer
+    });
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
 
-//   test('authChecked должен устанавливать isAuthChecked в true', () => {
-//     const state = userSlice.reducer(initialState, authChecked());
-//     expect(state.isAuthChecked).toBe(true);
-//   });
+  test('регистрация пользователя', async () => {
+    const registerUserMock = jest
+      .spyOn(api, 'registerUserApi')
+      .mockResolvedValue({
+        success: true,
+        refreshToken: 'test-refresh-token',
+        accessToken: 'test-access-token',
+        user: userData
+      });
 
-//   test('resetOrderState должен сбрасывать состояние заказов', () => {
-//     let orders = {...initialState, orders: expectedOrders};
-//     state = userSlice.reducer(initialState, resetOrderState());
-//     expect(state.orders).toEqual([]);
-//   });
-// });
+    const result = api.registerUserApi({name: userData.name, email: userData.email, password: 'password'});
 
-// describe('тесты асинхронных экшенов', () => {
-//   test('registerUserApi корректно отправляет данные для регистрации', async () => {
-//     const registerUserMock = jest
-//       .spyOn(api, 'registerUserApi')
-//       .mockResolvedValue(expectedResponse);
-//     await api.registerUserApi(registerData);
-//     expect(registerUserMock).toBeCalled();
-//     expect(api.registerUserApi).toHaveBeenCalledWith(registerData);
-//   });
-// });
+    expect(registerUserMock).toBeCalled();
+    expect(result).toEqual(Promise.resolve({success: true,
+      refreshToken: 'test-refresh-token',
+      accessToken: 'test-access-token',
+      user: userData}))
+  });
+
+  test('логин пользователя', async () => {
+    const loginUserMock = jest.spyOn(api, 'loginUserApi').mockResolvedValue({
+      success: true,
+      refreshToken: 'test-refresh-token',
+      accessToken: 'test-access-token',
+      user: userData
+    });
+
+    await store.dispatch(actions.loginUserThunk(loginUserData));
+    const state = store.getState();
+    expect(loginUserMock).toBeCalled();
+    expect(state.data).toEqual(userData);
+  });
+
+  test('должен вернуться success при успешном восствновлени пароля', async () => {
+    const forgotPasswordMock = jest
+      .spyOn(api, 'forgotPasswordApi')
+      .mockResolvedValue({success: true});
+
+    const result = await api.forgotPasswordApi({email: userData.email});
+
+    expect(forgotPasswordMock).toBeCalled();
+    expect(result.success).toBe(true);
+  });
+
+  test('должен вернуться success при успешном сбросе пароля', async () => {
+    const resetPasswordMock = jest
+      .spyOn(api, 'resetPasswordApi')
+      .mockResolvedValue({success: true});
+
+    const result = await api.resetPasswordApi({password: 'password', token: 'test-token'});
+
+    expect(resetPasswordMock).toBeCalled();
+    expect(result.success).toBe(true);
+  });
+
+  test('получение данных пользователя', async () => {
+    const getUserMock = jest
+      .spyOn(api, 'getUserApi')
+      .mockResolvedValue({ success: true, user: userData });
+
+    await store.dispatch(actions.getUserThunk());
+    const state = store.getState();
+
+    expect(getUserMock).toBeCalled();
+    expect(state.data).toEqual(userData);
+  });
+
+  test('обновление данных пользователя', async () => {
+    const updateUserMock = jest.spyOn(api, 'updateUserApi').mockResolvedValue({success: true, user: userData});
+
+    await store.dispatch(actions.updateUserThunk({...userData, password: 'password'}));
+    const state = store.getState();
+
+    expect(updateUserMock).toBeCalled();
+    expect(state.data).toEqual(userData);
+  });
+
+  test('очистка всех данных пользователя при логауте', async () => {
+    const loginUserMock = jest.spyOn(api, 'loginUserApi').mockResolvedValue({
+      success: true,
+      refreshToken: 'test-refresh-token',
+      accessToken: 'test-access-token',
+      user: userData
+    });
+    const logoutMock = jest.spyOn(api, 'logoutApi').mockResolvedValue({success: true});
+
+    await store.dispatch(actions.loginUserThunk(loginUserData));
+    await store.dispatch(actions.logoutUserThunk());
+    const state = store.getState();
+
+    expect(logoutMock).toBeCalled();
+    expect(state.data).toEqual(null);
+  });
+});
+
+describe('тесты селекторов', () => {
+  const store = configureStore({
+    reducer: userSlice.reducer
+  });
+
+  test('селекторы должны возвращать соответствующие поля', () => {
+    const state = {user: store.getState()};
+
+    const user = selectUser(state);
+    const authChecked = selectAuthChecked(state);
+    const error = selectError(state)
+    const isLoading = selectIsLoading(state);
+    const isAuthenticated = selectIsAuthenticated(state);
+    const orderModalData = selectOrderModalData(state);
+    const orderRequest = selectOrderRequest(state);
+    const orders = selectUserOrders(state);
+    const order = selectOrder(state);
+
+    expect(user).toBeNull();
+    expect(authChecked).toBeFalsy();
+    expect(error).toBeNull();
+    expect(isLoading).toBeFalsy();
+    expect(isAuthenticated).toBeFalsy();
+    expect(orderModalData).toBeNull();
+    expect(orderRequest).toBeFalsy();
+    expect(orders).toEqual([]);
+    expect(order).toBeNull();
+  });
+});
+

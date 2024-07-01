@@ -36,11 +36,11 @@ const expectedOrders = [
 ];
 
 const mockResult = {
-      success: true,
-      orders: expectedOrders,
-      total: 2,
-      totalToday: 2
-    };
+  success: true,
+  orders: expectedOrders,
+  total: 2,
+  totalToday: 2
+};
 
 describe('тесты асинхронных экшенов', () => {
   afterEach(() => {
@@ -71,7 +71,9 @@ describe('тесты асинхронных экшенов', () => {
       reducer: feedsSlice.reducer
     });
     const errorMessage = 'Ошибка загрузки';
-    const getFeedsMock = jest.spyOn(api, 'getFeedsApi').mockRejectedValue(new Error(errorMessage));
+    const getFeedsMock = jest
+      .spyOn(api, 'getFeedsApi')
+      .mockRejectedValue(new Error(errorMessage));
 
     await store.dispatch(getFeedsThunk());
     const state = store.getState();
@@ -95,7 +97,7 @@ describe('тесты селекторов', () => {
     let isLoading = selectIsLoading({ feeds: store.getState() });
     expect(isLoading).toEqual(false);
     store.dispatch({ type: 'feeds/getAll/pending' });
-    isLoading = selectIsLoading({feeds: store.getState()});
+    isLoading = selectIsLoading({ feeds: store.getState() });
     expect(isLoading).toEqual(true);
   });
 

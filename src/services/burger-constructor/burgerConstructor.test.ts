@@ -48,43 +48,60 @@ describe('тесты реддюсеров', () => {
   });
 
   test('возврат состояния при передаче некорректного экшена', () => {
-    const state = burgerConstructorSlice.reducer(initialState, { type: '', payload: '' });
+    const state = burgerConstructorSlice.reducer(initialState, {
+      type: '',
+      payload: ''
+    });
     expect(state).toEqual(initialState);
   });
 
   test('добавление булки в конструктор', () => {
     const state = burgerConstructorSlice.reducer(initialState, addItem(bun));
-    expect(state.bun).toEqual({...bun, id: expect.any(String)});
+    expect(state.bun).toEqual({ ...bun, id: expect.any(String) });
   });
 
   test('добавление ингредиента в конструктор', () => {
-    const state = burgerConstructorSlice.reducer(initialState, addItem(ingredient));
-    expect(state.ingredients[0]).toEqual({...ingredient, id: expect.any(String)});
+    const state = burgerConstructorSlice.reducer(
+      initialState,
+      addItem(ingredient)
+    );
+    expect(state.ingredients[0]).toEqual({
+      ...ingredient,
+      id: expect.any(String)
+    });
   });
 
   test('удаление ингредиента из конструктора', () => {
-    let state = burgerConstructorSlice.reducer(initialState, addItem(ingredient));
+    let state = burgerConstructorSlice.reducer(
+      initialState,
+      addItem(ingredient)
+    );
     const removedItem = state.ingredients[0];
     state = burgerConstructorSlice.reducer(state, removeItem(removedItem.id));
     expect(state.ingredients).toEqual([]);
   });
 
   test('перемещение ингредиента вниз', () => {
-    let state = burgerConstructorSlice.reducer(initialState, addItem(ingredient));
-    state = burgerConstructorSlice.reducer(state, addItem({ ...ingredient, _id: nanoid() }));
-    state = burgerConstructorSlice.reducer(state, moveDown(0));
-    expect(state.ingredients[1]).toEqual(
-      expect.objectContaining(ingredient)
+    let state = burgerConstructorSlice.reducer(
+      initialState,
+      addItem(ingredient)
     );
+    state = burgerConstructorSlice.reducer(
+      state,
+      addItem({ ...ingredient, _id: nanoid() })
+    );
+    state = burgerConstructorSlice.reducer(state, moveDown(0));
+    expect(state.ingredients[1]).toEqual(expect.objectContaining(ingredient));
   });
 
   test('перемещение ингредиента вверх', () => {
-    let state = burgerConstructorSlice.reducer(initialState, addItem({ ...ingredient, _id: nanoid() }));
+    let state = burgerConstructorSlice.reducer(
+      initialState,
+      addItem({ ...ingredient, _id: nanoid() })
+    );
     state = burgerConstructorSlice.reducer(state, addItem(ingredient));
     state = burgerConstructorSlice.reducer(state, moveUp(1));
-    expect(state.ingredients[0]).toEqual(
-      expect.objectContaining(ingredient)
-    );
+    expect(state.ingredients[0]).toEqual(expect.objectContaining(ingredient));
   });
 
   test('очистка конструктора', () => {
@@ -97,7 +114,9 @@ describe('тесты реддюсеров', () => {
 
 describe('тесты селекторов', () => {
   test('получение состояния', () => {
-    const constructorItems = selectConstructorItems({ burgerConstructor: initialState });
+    const constructorItems = selectConstructorItems({
+      burgerConstructor: initialState
+    });
     expect(constructorItems).toEqual(initialState);
   });
 });
