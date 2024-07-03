@@ -15,13 +15,13 @@ import ingredients from '../fixtures/ingredients.json';
 
 describe('доступность приложения', () => {
   it('сервис должен быть доступен по адресу localhost:4000', () => {
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   })
 });
 
 describe('процесс входа в систему', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:4000/login');
+    cy.visit('/login');
 
     cy.intercept('POST', 'api/auth/login', {
       statusCode: 200,
@@ -53,7 +53,7 @@ describe('страница конструктора', () => {
       body: ingredients,
     }).as('getIngredients');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
     cy.wait('@getIngredients').its('response.statusCode').should('eq', 200);
   });
 
@@ -99,7 +99,7 @@ describe('Создание заказа', () => {
             }
           }).as('mockLogin');
 
-    cy.visit('http://localhost:4000');
+    cy.visit('/');
   });
 
   it('собирается бургер и оформляется заказ', () => {
