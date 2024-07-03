@@ -1,9 +1,11 @@
-import { deleteCookie, getCookie, setCookie } from "./cookie";
+import { deleteCookie, getCookie, setCookie } from './cookie';
 
 describe('cookieUtils', () => {
   beforeEach(() => {
     document.cookie.split(';').forEach((cookie) => {
-      document.cookie = cookie.replace(/^ +/, '').replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
+      document.cookie = cookie
+        .replace(/^ +/, '')
+        .replace(/=.*/, '=;expires=' + new Date().toUTCString() + ';path=/');
     });
   });
 

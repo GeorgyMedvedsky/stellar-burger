@@ -2,7 +2,18 @@ import { configureStore } from '@reduxjs/toolkit';
 import * as api from '../../utils/burger-api';
 import { expect, test, describe, jest, afterEach } from '@jest/globals';
 import * as actions from './actions';
-import { selectAuthChecked, selectError, selectIsAuthenticated, selectIsLoading, selectOrder, selectOrderModalData, selectOrderRequest, selectUser, selectUserOrders, userSlice } from './slice';
+import {
+  selectAuthChecked,
+  selectError,
+  selectIsAuthenticated,
+  selectIsLoading,
+  selectOrder,
+  selectOrderModalData,
+  selectOrderRequest,
+  selectUser,
+  selectUserOrders,
+  userSlice
+} from './slice';
 
 jest.mock('../../utils/burger-api', () => ({
   registerUserApi: jest.fn(),
@@ -47,13 +58,21 @@ describe('тесты асинхронных экшенов', () => {
         user: userData
       });
 
-    const result = api.registerUserApi({name: userData.name, email: userData.email, password: 'password'});
+    const result = api.registerUserApi({
+      name: userData.name,
+      email: userData.email,
+      password: 'password'
+    });
 
     expect(registerUserMock).toBeCalled();
-    expect(result).toEqual(Promise.resolve({success: true,
-      refreshToken: 'test-refresh-token',
-      accessToken: 'test-access-token',
-      user: userData}))
+    expect(result).toEqual(
+      Promise.resolve({
+        success: true,
+        refreshToken: 'test-refresh-token',
+        accessToken: 'test-access-token',
+        user: userData
+      })
+    );
   });
 
   test('логин пользователя', async () => {
@@ -73,9 +92,9 @@ describe('тесты асинхронных экшенов', () => {
   test('должен вернуться success при успешном восствновлени пароля', async () => {
     const forgotPasswordMock = jest
       .spyOn(api, 'forgotPasswordApi')
-      .mockResolvedValue({success: true});
+      .mockResolvedValue({ success: true });
 
-    const result = await api.forgotPasswordApi({email: userData.email});
+    const result = await api.forgotPasswordApi({ email: userData.email });
 
     expect(forgotPasswordMock).toBeCalled();
     expect(result.success).toBe(true);
@@ -84,9 +103,12 @@ describe('тесты асинхронных экшенов', () => {
   test('должен вернуться success при успешном сбросе пароля', async () => {
     const resetPasswordMock = jest
       .spyOn(api, 'resetPasswordApi')
-      .mockResolvedValue({success: true});
+      .mockResolvedValue({ success: true });
 
-    const result = await api.resetPasswordApi({password: 'password', token: 'test-token'});
+    const result = await api.resetPasswordApi({
+      password: 'password',
+      token: 'test-token'
+    });
 
     expect(resetPasswordMock).toBeCalled();
     expect(result.success).toBe(true);
@@ -105,9 +127,13 @@ describe('тесты асинхронных экшенов', () => {
   });
 
   test('обновление данных пользователя', async () => {
-    const updateUserMock = jest.spyOn(api, 'updateUserApi').mockResolvedValue({success: true, user: userData});
+    const updateUserMock = jest
+      .spyOn(api, 'updateUserApi')
+      .mockResolvedValue({ success: true, user: userData });
 
-    await store.dispatch(actions.updateUserThunk({...userData, password: 'password'}));
+    await store.dispatch(
+      actions.updateUserThunk({ ...userData, password: 'password' })
+    );
     const state = store.getState();
 
     expect(updateUserMock).toBeCalled();
@@ -121,7 +147,9 @@ describe('тесты асинхронных экшенов', () => {
       accessToken: 'test-access-token',
       user: userData
     });
-    const logoutMock = jest.spyOn(api, 'logoutApi').mockResolvedValue({success: true});
+    const logoutMock = jest
+      .spyOn(api, 'logoutApi')
+      .mockResolvedValue({ success: true });
 
     await store.dispatch(actions.loginUserThunk(loginUserData));
     await store.dispatch(actions.logoutUserThunk());
@@ -138,11 +166,11 @@ describe('тесты селекторов', () => {
   });
 
   test('селекторы должны возвращать соответствующие поля', () => {
-    const state = {user: store.getState()};
+    const state = { user: store.getState() };
 
     const user = selectUser(state);
     const authChecked = selectAuthChecked(state);
-    const error = selectError(state)
+    const error = selectError(state);
     const isLoading = selectIsLoading(state);
     const isAuthenticated = selectIsAuthenticated(state);
     const orderModalData = selectOrderModalData(state);
@@ -161,4 +189,3 @@ describe('тесты селекторов', () => {
     expect(order).toBeNull();
   });
 });
-
