@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { TOrdersData } from '@utils-types';
 import { getFeedsThunk } from './action';
 
-type TFeedsData = TOrdersData & {
+export type TFeedsData = TOrdersData & {
   isLoading: boolean;
   error: null | string | undefined;
 };
